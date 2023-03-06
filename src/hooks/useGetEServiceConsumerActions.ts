@@ -18,6 +18,7 @@ function useGetEServiceConsumerActions<
   const { t: tCommon } = useTranslation('common')
 
   const { mutate: createAgreementDraft } = AgreementMutations.useCreateDraft()
+  const { mutate: createAndSubmitAgreementDraft } = AgreementMutations.useCreateAndSubmitDraft()
 
   const hasValidAgreement =
     eservice?.agreement && !['REJECTED', 'DRAFT'].includes(eservice.agreement.state)
@@ -72,7 +73,7 @@ function useGetEServiceConsumerActions<
       })
     }
 
-    if (canCreateAgreementDraft && isAdmin) {
+    if (canCreateAgreementDraft && isAdmin && !isMine) {
       createAgreementDraftAction = () => {
         if (!descriptor) return
         createAgreementDraft(
@@ -85,6 +86,31 @@ function useGetEServiceConsumerActions<
           {
             onSuccess({ id }) {
               navigate('SUBSCRIBE_AGREEMENT_EDIT', { params: { agreementId: id } })
+            },
+          }
+        )
+      }
+      actions.push({
+        action: createAgreementDraftAction,
+        label: tCommon('actions.subscribe'),
+      })
+    }
+
+    // If e-service is owned by the active user, use a different agreement service that will skip
+    // the agreement draft part and will directly subscribe to the e-service.
+    if (canCreateAgreementDraft && isAdmin && isMine) {
+      createAgreementDraftAction = () => {
+        if (!descriptor) return
+        createAndSubmitAgreementDraft(
+          {
+            eserviceName: eservice.name,
+            eserviceId: eservice.id,
+            eserviceVersion: descriptor.version,
+            descriptorId: descriptor.id,
+          },
+          {
+            onSuccess() {
+              navigate('PROVIDE_AGREEMENT_LIST')
             },
           }
         )
