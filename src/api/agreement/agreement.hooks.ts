@@ -72,6 +72,25 @@ function useSubmitDraft() {
   })
 }
 
+/**
+ * WARNING: MUST be used only when party is subscribing to his own e-service.
+ * */
+function useCreateAndSubmitDraft() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'agreement.createAndSubmitDraft',
+  })
+  return useMutationWrapper(AgreementServices.createAndSubmitDraft, {
+    successToastLabel: t('outcome.success'),
+    errorToastLabel: t('outcome.error'),
+    loadingLabel: t('loading'),
+    showConfirmationDialog: true,
+    dialogConfig: {
+      title: t('confirmDialog.title'),
+      description: t('confirmDialog.description'),
+    },
+  })
+}
+
 function useDeleteDraft() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'agreement.deleteDraft' })
   return useMutationWrapper(AgreementServices.deleteDraft, {
@@ -211,6 +230,7 @@ export const AgreementQueries = {
 export const AgreementMutations = {
   useCreateDraft,
   useSubmitDraft,
+  useCreateAndSubmitDraft,
   useDeleteDraft,
   useUpdateDraft,
   useUploadDraftDocument,

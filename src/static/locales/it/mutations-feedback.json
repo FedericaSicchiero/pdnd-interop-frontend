@@ -212,6 +212,18 @@
         "description": "Cliccando su \"conferma\", la richiesta di fruizione sarà inoltrata all'erogatore dell'e-service per approvazione"
       }
     },
+    "createAndSubmitDraft": {
+      "loading": "Stiamo inoltrando la richiesta di fruizione",
+      "outcome": {
+        "title": "La richiesta di fruizione è stata creata correttamente",
+        "error": "Non è stato possibile creare la richiesta. Per favore, riprova!"
+      },
+      "confirmDialog": {
+        "title": "Sottoscrizione e-service proprio",
+        "description": "Stai cercando di iscriverti ad un tuo e-service. Cliccando su \"conferma\", la richiesta di fruizione sarà automaticamente creata",
+        "proceedLabel": "Crea bozza"
+      }
+    },
     "deleteDraft": {
       "loading": "Stiamo cancellando la bozza",
       "outcome": {

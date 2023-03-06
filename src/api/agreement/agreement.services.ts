@@ -52,6 +52,16 @@ async function submitDraft({
   return response.data
 }
 
+async function createAndSubmitDraft(data: {
+  eserviceName: string
+  eserviceVersion: string | undefined
+  eserviceId: string
+  descriptorId: string
+}) {
+  const { id: agreementId } = await createDraft(data)
+  return await submitDraft({ agreementId, consumerNotes: '' })
+}
+
 async function deleteDraft({ agreementId }: { agreementId: string }) {
   return axiosInstance.delete<AgreementSummary>(
     `${BACKEND_FOR_FRONTEND_URL}/agreements/${agreementId}`
@@ -163,6 +173,7 @@ const AgreementServices = {
   getSingle,
   createDraft,
   submitDraft,
+  createAndSubmitDraft,
   deleteDraft,
   updateDraft,
   downloadDraftDocument,
