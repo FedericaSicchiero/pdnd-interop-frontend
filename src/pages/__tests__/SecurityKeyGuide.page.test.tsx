@@ -1,23 +1,23 @@
 import React from 'react'
-import { TOSPage } from '../TOSPage'
-import tosJson from '../../../public/data/it/tos.json'
+import { SecurityKeyGuidePage } from '../SecurityKeyGuidePage'
+import publicKeyJson from '../../../public/data/it/public-key.json'
 import { setupServer } from 'msw/node'
 import { rest } from 'msw'
 import { FE_URL } from '@/config/env'
 import { render } from '@testing-library/react'
 
 const server = setupServer(
-  rest.get(`${FE_URL}/data/it/tos.json`, (req, res, ctx) => {
-    return res(ctx.json(tosJson))
+  rest.get(`${FE_URL}/data/it/public-key.json`, (req, res, ctx) => {
+    return res(ctx.json(publicKeyJson))
   })
 )
 
 beforeAll(() => server.listen())
 afterAll(() => server.close())
 
-describe('TOS page', () => {
+describe('SecurityKeyGuide page', () => {
   it('should match the snapshot', async () => {
-    const screen = render(<TOSPage />)
+    const screen = render(<SecurityKeyGuidePage />)
     await new Promise((resolve) => setTimeout(resolve, 1))
     expect(screen.baseElement).toMatchSnapshot()
   })
